@@ -10,6 +10,8 @@ describe("Cart tests", () => {
     await inventoryPage.addFirstItemToCart();
     expect(await inventoryPage.getCartCount()).toBe("1");
     await inventoryPage.burgerButtonClick();
+    const menuItems = await inventoryPage.getMenuItems();
+    expect(menuItems.length).toBe(4);
     await inventoryPage.logoutButtonClick();
     expect(await loginPage.inputUsername.getValue()).toBe("");
     expect(await loginPage.inputPassword.getValue()).toBe("");
