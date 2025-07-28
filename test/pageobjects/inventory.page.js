@@ -36,6 +36,13 @@ class inventoryPage {
   get facebookButton() {
     return $('[data-test="social-facebook"');
   }
+  get menuItems() {
+    return $$(".bm-item.menu-item");
+  }
+
+  async getMenuItems() {
+    return await this.menuItems;
+  }
   async getFirstItemPrice(name) {
     const items = await $$(".inventory_item");
 
