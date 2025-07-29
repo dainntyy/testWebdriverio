@@ -40,7 +40,6 @@ class LoginPage {
     const selector = field === "username" ? "#user-name" : "#password";
     const input = $(selector);
 
-    // Отримуємо клас безпосередньо з input або його обгортки
     const classAttr = await input.getAttribute("class");
     return classAttr.includes("input_error");
   }
