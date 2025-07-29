@@ -1,3 +1,4 @@
+import { $, $$ } from "@wdio/globals";
 class checkoutPage {
   get checkoutForm() {
     return $(".checkout_info");

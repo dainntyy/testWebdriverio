@@ -1,5 +1,6 @@
 import inventoryPage from "../pageobjects/inventory.page";
 import loginPage from "../pageobjects/login.page";
+import { browser } from "@wdio/globals";
 
 
 describe("Footer links tests", () => {

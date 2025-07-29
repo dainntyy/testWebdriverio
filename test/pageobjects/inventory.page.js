@@ -1,3 +1,4 @@
+import { $, $$, browser } from "@wdio/globals";
 class inventoryPage {
   get inventoryContainer() {
     return $(".inventory_container");
@@ -83,7 +84,7 @@ class inventoryPage {
   }
 
   async isSortedCorrectly(type) {
-    if (type === 'az' || type === "za") {
+    if (type === "az" || type === "za") {
       const nameElements = await this.itemNames;
       const names = [];
       for (const el of nameElements) {
@@ -96,7 +97,7 @@ class inventoryPage {
       );
 
       return cleaned.every((val, idx) => val === sorted[idx]);
-    } else if (type === 'lohi' || type === 'hilo') {
+    } else if (type === "lohi" || type === "hilo") {
       const priceElements = await this.itemPrices;
       const prices = [];
       for (const el of priceElements) {
@@ -104,18 +105,16 @@ class inventoryPage {
         const value = parseFloat(text.replace(/[^0-9.]/g, ""));
         prices.push(value);
       }
-      if (type === 'lohi') {
+      if (type === "lohi") {
         const sorted = [...prices].sort((a, b) => a - b);
         return prices.every((val, idx) => Math.abs(val - sorted[idx]) < 0.01);
       } else {
         const sorted = [...prices].sort((a, b) => b - a);
         return prices.every((val, idx) => val === sorted[idx]);
       }
-
     } else {
       throw new Error(`Unknown sort type: ${type}`);
     }
-
   }
 }
 export default new inventoryPage();

@@ -1,3 +1,4 @@
+import { $, $$ } from '@wdio/globals';
 class cartPage {
   get cartItems() {
     return $$(".cart_item"); // повертає масив елементів у кошику

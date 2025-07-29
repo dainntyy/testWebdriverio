@@ -1,3 +1,4 @@
+import { $, browser } from "@wdio/globals";
 class LoginPage {
   get inputUsername() {
     return $("#user-name");
