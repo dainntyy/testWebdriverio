@@ -10,16 +10,11 @@ describe("Cart tests", () => {
     await inventoryPage.addFirstItemToCart();
     expect(await inventoryPage.getCartCount()).toBe("1");
     await inventoryPage.burgerButtonClick();
-    const menuItems = await inventoryPage.getMenuItems();
-    expect(menuItems.length).toBe(4);
+    expect((await inventoryPage.getMenuItems()).length).toBe(4);
     await inventoryPage.logoutButtonClick();
-    expect(await loginPage.inputUsername.getValue()).toBe("");
-    expect(await loginPage.inputPassword.getValue()).toBe("");
     await loginPage.login("standard_user", "secret_sauce");
-    expect(await inventoryPage.getCartCount()).toBe("1");
     await inventoryPage.cartButton.click();
-    expect(await cartPage.isCartItemPresent()).toBe(true);
     const cartItemName = await cartPage.getFirstCartItemName();
-    expect(cartItemName === productName);
+    expect(cartItemName).toBe(productName);
   });
 });

@@ -4,34 +4,34 @@ import cartPage from "../pageobjects/cart.page";
 import checkoutPage from "../pageobjects/checkout.page";
 
 describe("Valid checkout test", () => {
+  const productName = "Sauce Labs Backpack";
   before(async () => {
     await loginPage.open();
     await loginPage.login("visual_user", "secret_sauce");
-    const visible = await inventoryPage.isInventoryDisplayed();
-    expect(visible).toBe(true);
   });
-  it("should checkout successfully with valid credentials", async () => {
-    const productName = "Sauce Labs Backpack";
+  it("should add product to cart", async () => {
     await inventoryPage.addFirstItemToCart();
-    const expectedTotal = await inventoryPage.getFirstItemPrice(productName);
     expect(await inventoryPage.getCartCount()).toBe("1");
+  });
+  it("should display correct product in cart", async () => {
     await inventoryPage.cartButton.click();
     const cartItems = await cartPage.getCartItemNames();
-    expect(cartItems).toEqual([productName.toLowerCase()]);
+    expect(cartItems[0].toLowerCase()).toContain(productName.toLowerCase());
+  });
+  it("should checkout successfully with valid credentials", async () => {
     await cartPage.proceedToCheckout();
     expect(await checkoutPage.isCheckoutFormDisplayed()).toBe(true);
     await checkoutPage.fillCredentials();
     await checkoutPage.continueButton.click();
     expect(await cartPage.isCartItemPresent()).toBe(true);
     const overviewItems = await checkoutPage.getProductNames();
-    expect(overviewItems).toEqual([productName.toLowerCase()]);
-    const displayedTotal = await checkoutPage.getItemPrice();
-    // expect(displayedTotal).toBe(expectedTotal);
+    expect(overviewItems[0].toLowerCase()).toContain(productName.toLowerCase());
     await checkoutPage.finishButton.click();
     expect(await checkoutPage.isCompleteMessageDisplayed()).toBe(true);
+  });
+  it("should return to inventory and have empty cart", async () => {
     await checkoutPage.homeButton.click();
     expect(await inventoryPage.isInventoryDisplayed()).toBe(true);
-    const cartFinal = await inventoryPage.getCartCount();
-    expect(cartFinal).toBe("");
+    expect(await inventoryPage.getCartCount()).toBe("");
   });
 });

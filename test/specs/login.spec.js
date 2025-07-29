@@ -6,7 +6,6 @@ describe("Login tests", () => {
   it("should login with valid credentials", async () => {
     await loginPage.open();
     await loginPage.login("standard_user", "secret_sauce");
-
     expect(await inventoryPage.isInventoryDisplayed()).toBe(true);
   });
   it("should not login with invalid password", async () => {
@@ -17,8 +16,10 @@ describe("Login tests", () => {
       error.includes("Epic sadface"),
       "Expected error message not found"
     );
-    expect(await loginPage.isInputInvalid("username")).toBe(true);
-    expect(await loginPage.isInputInvalid("password")).toBe(true);
+    expect(
+      (await loginPage.isInputInvalid("username")) &&
+        (await loginPage.isInputInvalid("password"))
+    ).toBe(true);
   });
   it("should not login with invalid user name", async () => {
     await loginPage.open();
@@ -28,7 +29,9 @@ describe("Login tests", () => {
       error.includes("Epic sadface"),
       "Expected error message not found"
     );
-    expect(await loginPage.isInputInvalid("username")).toBe(true);
-    expect(await loginPage.isInputInvalid("password")).toBe(true);
+    expect(
+      (await loginPage.isInputInvalid("username")) &&
+        (await loginPage.isInputInvalid("password"))
+    ).toBe(true);
   });
 });

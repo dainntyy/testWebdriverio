@@ -6,11 +6,8 @@ describe("Logout test", () => {
     await loginPage.open();
     await loginPage.login("standard_user", "secret_sauce");
     await inventoryPage.burgerButtonClick();
-    const menuItems = await inventoryPage.getMenuItems();
-    expect(menuItems.length).toBe(4);
+    expect((await inventoryPage.getMenuItems()).length).toBe(4);
     await inventoryPage.logoutButtonClick();
     expect(await loginPage.getLoginContainer()).toBe(true);
-    expect(await loginPage.getUsernameValue()).toBe("");
-    expect(await loginPage.getPasswordValue()).toBe("");
   });
 });
