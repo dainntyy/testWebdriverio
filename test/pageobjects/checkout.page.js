@@ -31,10 +31,6 @@ class checkoutPage {
     await this.lastName.setValue("Smith");
     await this.postalCode.setValue("40000");
   }
-  async getItemPrice() {
-    const displayedPrice = await this.itemPrice.getText();
-    return parseFloat(displayedPrice.replace("Item total: $", ""));
-  }
 
   async getProductNames() {
     const items = await $$(".inventory_item_name");

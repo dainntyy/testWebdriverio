@@ -21,9 +21,6 @@ class cartPage {
   async getFirstCartItemName() {
     return await this.firstCartItemName.getText();
   }
-  async getFirstCartItemPrice() {
-    return await this.firstCartItemPrice.getText();
-  }
 
   async getCartItemNames() {
     const items = await $$(".inventory_item_name");

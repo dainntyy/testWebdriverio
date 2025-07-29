@@ -1,5 +1,3 @@
-import { $ } from "@wdio/globals";
-
 class LoginPage {
   get inputUsername() {
     return $("#user-name");
@@ -20,13 +18,6 @@ class LoginPage {
   }
   async getLoginContainer() {
     return await this.loginContainer.isDisplayed();
-  }
-  async getUsernameValue() {
-    return await this.inputUsername.getValue();
-  }
-
-  async getPasswordValue() {
-    return await this.inputPassword.getValue();
   }
   async getErrorMessage() {
     return await this.errorContainer.getText();

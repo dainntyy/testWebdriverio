@@ -43,19 +43,6 @@ class inventoryPage {
   async getMenuItems() {
     return await this.menuItems;
   }
-  async getFirstItemPrice(name) {
-    const items = await $$(".inventory_item");
-
-    for (const item of items) {
-      const itemName = await item.$(".inventory_item_name").getText();
-      if (itemName === name) {
-        const priceText = await item.$(".inventory_item_price").getText();
-        return parseFloat(priceText.replace("$", ""));
-      }
-    }
-
-    throw new Error(`Item with name "${name}" not found`);
-  }
   async getFirstItemName() {
     return await this.firstItemName.getText();
   }
