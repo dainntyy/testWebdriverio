@@ -84,7 +84,7 @@ class inventoryPage {
 
   async isSortedCorrectly(type) {
     if (type === "az" || type === "za") {
-      const nameElements = this.itemNames;
+      const nameElements = await this.itemNames;
       const names = [];
       for (const el of nameElements) {
         names.push(await el.getText());
@@ -97,7 +97,7 @@ class inventoryPage {
 
       return cleaned.every((val, idx) => val === sorted[idx]);
     } else if (type === "lohi" || type === "hilo") {
-      const priceElements = this.itemPrices;
+      const priceElements = await this.itemPrices;
       const prices = [];
       for (const el of priceElements) {
         const text = await el.getText();
