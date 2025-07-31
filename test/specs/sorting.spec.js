@@ -2,7 +2,7 @@ import loginPage from "../pageobjects/login.page";
 import inventoryPage from "../pageobjects/inventory.page";
 
 describe("Sortings tests", () => {
-  before(async () => {
+  beforeEach(async () => {
     await loginPage.open();
     await loginPage.login("standard_user", "secret_sauce");
   });

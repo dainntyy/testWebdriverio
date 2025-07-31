@@ -1,19 +1,8 @@
 import loginPage from "../pageobjects/login.page";
 import inventoryPage from "../pageobjects/inventory.page";
-import assert from "assert";
+import { checkInvalidInput } from "../helpers/auth.helper";
 
 describe("Login tests", () => {
-  async function checkInvalidInput() {
-    const error = await loginPage.getErrorMessage();
-    assert.ok(
-      error.includes("Epic sadface"),
-      "Expected error message not found"
-    );
-    expect(
-      (await loginPage.isInputInvalid("username")) &&
-        (await loginPage.isInputInvalid("password"))
-    ).toBe(true);
-  }
   it("should login with valid credentials", async () => {
     await loginPage.open();
     await loginPage.login("standard_user", "secret_sauce");

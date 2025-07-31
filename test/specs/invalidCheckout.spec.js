@@ -12,7 +12,6 @@ describe("Checkout without products test", () => {
     expect((await cartPage.getCartItemNames()).length).toBe(0);
     await cartPage.proceedToCheckout();
     expect(await cartPage.isEmptyCartErrorVisible()).toBe(true);
-    const errorText = await cartPage.getEmptyCartErrorText();
-    expect(errorText).toContain("Cart is empty");
+    expect(await cartPage.getEmptyCartErrorText()).toContain("Cart is empty");
   });
 });

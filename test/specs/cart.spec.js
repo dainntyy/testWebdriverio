@@ -6,7 +6,6 @@ describe("Cart tests", () => {
   it("should save the cart state after logout", async () => {
     await loginPage.open();
     await loginPage.login("standard_user", "secret_sauce");
-    const productName = await inventoryPage.getFirstItemName();
     await inventoryPage.addFirstItemToCart();
     expect(await inventoryPage.getCartCount()).toBe("1");
     await inventoryPage.burgerButtonClick();
@@ -14,7 +13,8 @@ describe("Cart tests", () => {
     await inventoryPage.logoutButtonClick();
     await loginPage.login("standard_user", "secret_sauce");
     await inventoryPage.cartButton.click();
-    const cartItemName = await cartPage.getFirstCartItemName();
-    expect(cartItemName).toBe(productName);
+    expect(await cartPage.getFirstCartItemName()).toBe(
+      await inventoryPage.getFirstItemName()
+    );
   });
 });
