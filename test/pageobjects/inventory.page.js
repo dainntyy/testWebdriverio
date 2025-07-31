@@ -67,41 +67,52 @@ class inventoryPage {
   }
 
   async sortBy(option) {
-    const validOptions = ["az", "za", "lohi", "hilo"];
-    const value = option.toLowerCase();
-    if (!validOptions.includes(value)) {
-      throw new Error(`Unknown sort option: ${option}`);
-    }
+    const optionMap = {
+      az: "az",
+      za: "za",
+      lohi: "lohi",
+      hilo: "hilo",
+    };
+
+    const value = optionMap[option.toLowerCase()];
+    if (!value) throw new Error("Unknown sort option: " + option);
 
     await this.sortDownContainer.selectByAttribute("value", value);
-    await browser.pause(500);
+
+    await browser.pause(1000);
   }
 
   async isSortedCorrectly(type) {
-    const isNameSort = type === "az" || type === "za";
-    const isPriceSort = type === "lohi" || type === "hilo";
+    if (type === "az" || type === "za") {
+      const nameElements = this.itemNames;
+      const names = [];
+      for (const el of nameElements) {
+        names.push(await el.getText());
+      }
 
-    if (isNameSort) {
-      const names = await Promise.all(this.itemNames.map((el) => el.getText()));
       const cleaned = names.map((name) => name.trim());
-      const sorted = [...cleaned].sort((a, b) => a.localeCompare(b));
-      if (type === "za") sorted.reverse();
-      return cleaned.every((val, idx) => val === sorted[idx]);
-    }
-
-    if (isPriceSort) {
-      const prices = await Promise.all(
-        this.itemPrices.map(async (el) => {
-          const text = await el.getText();
-          return parseFloat(text.replace(/[^0-9.]/g, ""));
-        })
+      const sorted = [...cleaned].sort((a, b) =>
+        type === "az" ? a.localeCompare(b) : b.localeCompare(a)
       );
-      const sorted = [...prices].sort((a, b) => a - b);
-      if (type === "hilo") sorted.reverse();
-      return prices.every((val, idx) => Math.abs(val - sorted[idx]) < 0.01);
-    }
 
-    throw new Error(`Unknown sort type: ${type}`);
+      return cleaned.every((val, idx) => val === sorted[idx]);
+    } else if (type === "lohi" || type === "hilo") {
+      const priceElements = this.itemPrices;
+      const prices = [];
+      for (const el of priceElements) {
+        const text = await el.getText();
+        prices.push(parseFloat(text.replace(/[^0-9.]/g, "")));
+      }
+      if (type === "lohi") {
+        const sorted = [...prices].sort((a, b) => a - b);
+        return prices.every((val, idx) => Math.abs(val - sorted[idx]) < 0.01);
+      } else {
+        const sorted = [...prices].sort((a, b) => b - a);
+        return prices.every((val, idx) => val === sorted[idx]);
+      }
+    } else {
+      throw new Error(`Unknown sort type: ${type}`);
+    }
   }
 }
 export default new inventoryPage();
